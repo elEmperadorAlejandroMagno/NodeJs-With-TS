@@ -1,4 +1,4 @@
-import { DiaryEntry, NewDiaryEntry } from '../types'
+import { DiaryEntry, NewDiaryEntry, NonSensitiveInfoDiaryEntry } from '../types'
 import diaryData from './diaries.json'
 import { randomUUID } from 'crypto'
 
@@ -6,12 +6,20 @@ const diaries: DiaryEntry[] = diaryData as DiaryEntry[]
 
 export const getEntries = (): DiaryEntry[] => diaries
 
-export const getEntriesById = (id: string): DiaryEntry => {
+export const getEntriesById = (id: string): DiaryEntry | undefined => {
   const entry = diaries.find(e => e.id === id)
-  if (entry === undefined) {
-    throw new Error(`Entries with id:${id} not found`)
-  }
   return entry
+}
+
+export const getEntriesWithoutSensitiveInfo = (): NonSensitiveInfoDiaryEntry[] => {
+  return diaries.map(({ id, date, weather, visibility }) => {
+    return {
+      id,
+      date,
+      weather,
+      visibility
+    }
+  })
 }
 
 export const addEntry = (input: NewDiaryEntry): DiaryEntry => {

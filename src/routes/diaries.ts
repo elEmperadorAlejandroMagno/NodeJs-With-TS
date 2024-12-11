@@ -4,19 +4,17 @@ import { addEntry, getEntries, getEntriesById } from '../services/diary'
 const router = express.Router()
 
 router.get('/', (_req, res) => {
-  const entries = getEntries()
-  res.json(entries)
+  res.send(getEntries())
 })
 router.get('/:id', (req, res) => {
-  const { id } = req.params
-  const entries = getEntriesById(id)
-  res.json(entries)
+  const entry = getEntriesById(req.params.id)
+  if (entry === undefined) {
+    res.sendStatus(404)
+  } res.send(entry)
 })
 
 router.post('/', (req, res) => {
-  const diaryEntry = req.body
-  const newEntry = addEntry(diaryEntry)
-  res.json(newEntry)
+  res.send(addEntry(req.body))
 })
 
 export default router

@@ -6,6 +6,9 @@ app.use(express.json()) // middleware que transofrma req.body a json
 
 const PORT = 3000
 
+app.get('/', (_req, res) => {
+  res.redirect('/ping')
+})
 app.get('/ping', (_req, res) => {
   console.log('someone pinged here!! ' + new Date().toLocaleDateString())
   res.send('pong')
