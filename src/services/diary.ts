@@ -23,7 +23,7 @@ export const getEntriesWithoutSensitiveInfo = (): NonSensitiveInfoDiaryEntry[] =
 }
 
 export const addEntry = (input: NewDiaryEntry): DiaryEntry => {
-  const newEntry = {
+  const newEntry: DiaryEntry = {
     id: randomUUID(),
     ...input
   }
