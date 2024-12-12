@@ -1,5 +1,13 @@
-import { NewDiaryEntry } from './types'
+import { DiaryEntry, NewDiaryEntry } from './types'
 import { Visibility, Weather } from './enums'
+
+export function getEntry (id: string, entries: DiaryEntry[]): DiaryEntry {
+  const entry = entries.find(e => e.id === id)
+  if (entry === null) {
+    throw new Error('Diary entry not found')
+  }
+  return entry as DiaryEntry
+}
 
 function isString (string: any): boolean {
   return typeof string === 'string'

@@ -1,5 +1,5 @@
 import express from 'express'
-import { addEntry, getEntries, getEntriesById, updateEntry } from '../services/diary'
+import { addEntry, getEntries, getEntryById, updateEntry, deleteEntry } from '../services/diary'
 import { toNewEntry, toUpdateEntry } from '../utils'
 
 const router = express.Router()
@@ -8,7 +8,7 @@ router.get('/', (_req, res) => {
   res.send(getEntries())
 })
 router.get('/:id', (req, res) => {
-  const entry = getEntriesById(req.params.id)
+  const entry = getEntryById(req.params.id)
   if (entry === undefined) {
     res.sendStatus(404)
   } res.send(entry)
@@ -33,6 +33,21 @@ router.put('/:id', (req, res) => {
     }
     const updatedEntry = updateEntry(input, id)
     res.json(updatedEntry)
+  } catch (e: any) {
+    res.status(400).send(e.message)
+  }
+})
+
+router.delete('/:id', (req, res) => {
+  try {
+    const id = req.params.id
+    if (id === 'undefined') {
+      throw new Error('Invalid or incorrect values')
+    }
+    const isDeleted = deleteEntry(id)
+    if (!isDeleted) {
+      throw new Error('Entry not found')
+    } res.send('Diary Entry deleted correctly')
   } catch (e: any) {
     res.status(400).send(e.message)
   }

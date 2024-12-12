@@ -1,5 +1,5 @@
 import { DiaryEntry, NewDiaryEntry, NonSensitiveInfoDiaryEntry } from '../types'
-import { toUpdateEntry } from '../utils'
+import { getEntry, toUpdateEntry } from '../utils'
 import diaryData from './diaries.json'
 import { randomUUID } from 'crypto'
 
@@ -7,8 +7,8 @@ const diaries: DiaryEntry[] = diaryData as DiaryEntry[]
 
 export const getEntries = (): DiaryEntry[] => diaries
 
-export const getEntriesById = (id: string): DiaryEntry | undefined => {
-  const entry = diaries.find(e => e.id === id)
+export const getEntryById = (id: string): DiaryEntry | undefined => {
+  const entry = getEntry(id, diaries)
   return entry
 }
 
@@ -34,11 +34,20 @@ export const addEntry = (input: NewDiaryEntry): DiaryEntry => {
 
 export const updateEntry = (input: Partial<NewDiaryEntry>, id: string): DiaryEntry => {
   const validatedNewEntry = toUpdateEntry(input)
-  const oldEntry = diaries.find(e => e.id === id)
+  const oldEntry = getEntry(id, diaries)
   if (oldEntry == null) {
     throw new Error('Diary Entry not found')
   }
   const updatedEntry = { ...oldEntry, ...validatedNewEntry }
 
   return updatedEntry
+}
+
+export const deleteEntry = (id: string): boolean => {
+  const entryIndex = diaries.findIndex(e => e.id === id)
+  if (entryIndex === -1) {
+    return false
+  }
+  diaries.splice(entryIndex, 1)
+  return true
 }
