@@ -5,7 +5,7 @@ Content-Type: application/json
   "date": "2011-04-13",
   "weather": "sunny",
   "visibility": "good",
-  "comments": "Really nice flight, confortable and the crew were very kind"
+  "comment": "Really nice flight, confortable and the crew were very kind"
 }
 ###
 POST http://localhost:3000/diaries HTTP/1.1
@@ -15,7 +15,17 @@ Content-Type: application/json
   "date": "2012-02-18",
   "weather": "stormy",
   "visibility": "poor",
-  "comments": "The flight was terrible, a lot o turbulence, noice i couldn't even eat or sleep"
+  "comment": "The flight was terrible, a lot o turbulence, noice i couldn't even eat or sleep"
+}
+###
+POST http://localhost:3000/diaries HTTP/1.1
+Content-Type: application/json
+
+{ 
+"date": "2024-11-18", 
+"weather": "sunny", 
+"visibility": "clear", 
+"comment": "I loved the views"
 }
 
 ###
@@ -24,3 +34,12 @@ Content-Type: application/json
 ###
 GET http://localhost:3000/diaries/3 HTTP/1.1
 Content-Type: application/json
+
+###
+PUT http://localhost:3000/diaries/8d79baa4-aa62-4e90-8be6-db489474ba4e HTTP/1.1
+Content-Type: application/json
+
+{
+  "date": "2024-11-17",
+  "visibility": "good"
+}

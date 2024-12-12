@@ -5,7 +5,6 @@ function isString (string: any): boolean {
   return typeof string === 'string'
 }
 function isDate (date: string): boolean {
-  console.log(Date.parse(date))
   return Boolean(Date.parse(date))
 }
 function isWeather (param: Weather): boolean {
@@ -40,7 +39,7 @@ function parseComment (comment: any): string {
   return comment
 }
 
-const toNewEntry = (object: any): NewDiaryEntry => {
+export const toNewEntry = (object: any): NewDiaryEntry => {
   const newEntry: NewDiaryEntry = {
     date: parseDate(object.date),
     weather: parseWeather(object.weather),
@@ -50,4 +49,19 @@ const toNewEntry = (object: any): NewDiaryEntry => {
   return newEntry
 }
 
-export default toNewEntry
+export const toUpdateEntry = (object: any): Partial<NewDiaryEntry> => {
+  const parsedEntry: any = {}
+  if (object.date !== undefined) {
+    parsedEntry.date = parseDate(object.date)
+  }
+  if (object.weather !== undefined) {
+    parsedEntry.weather = parseWeather(object.weather)
+  }
+  if (object.visibility !== undefined) {
+    parsedEntry.visibility = parseVisibility(object.visibility)
+  }
+  if (object.comment !== undefined) {
+    parsedEntry.comment = parseComment(object.comment)
+  }
+  return parsedEntry
+}

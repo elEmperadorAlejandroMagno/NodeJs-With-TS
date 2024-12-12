@@ -1,4 +1,5 @@
 import { DiaryEntry, NewDiaryEntry, NonSensitiveInfoDiaryEntry } from '../types'
+import { toUpdateEntry } from '../utils'
 import diaryData from './diaries.json'
 import { randomUUID } from 'crypto'
 
@@ -29,4 +30,15 @@ export const addEntry = (input: NewDiaryEntry): DiaryEntry => {
   }
   diaryData.push(newEntry)
   return newEntry
+}
+
+export const updateEntry = (input: Partial<NewDiaryEntry>, id: string): DiaryEntry => {
+  const validatedNewEntry = toUpdateEntry(input)
+  const oldEntry = diaries.find(e => e.id === id)
+  if (oldEntry == null) {
+    throw new Error('Diary Entry not found')
+  }
+  const updatedEntry = { ...oldEntry, ...validatedNewEntry }
+
+  return updatedEntry
 }

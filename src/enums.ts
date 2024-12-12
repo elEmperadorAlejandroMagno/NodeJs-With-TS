@@ -8,6 +8,7 @@ export enum Weather {
 export enum Visibility {
   Great = 'great',
   Good = 'good',
+  Clear = 'clear',
   OK = 'ok',
   Poor = 'poor',
 }

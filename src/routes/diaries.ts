@@ -1,6 +1,6 @@
 import express from 'express'
-import { addEntry, getEntries, getEntriesById } from '../services/diary'
-import toNewEntry from '../utils'
+import { addEntry, getEntries, getEntriesById, updateEntry } from '../services/diary'
+import { toNewEntry, toUpdateEntry } from '../utils'
 
 const router = express.Router()
 
@@ -19,6 +19,20 @@ router.post('/', (req, res) => {
     const { date, weather, visibility, comment } = toNewEntry(req.body)
     const newEntry = addEntry({ date, weather, visibility, comment })
     res.json(newEntry)
+  } catch (e: any) {
+    res.status(400).send(e.message)
+  }
+})
+
+router.put('/:id', (req, res) => {
+  try {
+    const input: any = toUpdateEntry(req.body)
+    const id = req.params.id
+    if (input === 'undefined' || id === null) {
+      throw new Error('Invalid or incorrect values')
+    }
+    const updatedEntry = updateEntry(input, id)
+    res.json(updatedEntry)
   } catch (e: any) {
     res.status(400).send(e.message)
   }
